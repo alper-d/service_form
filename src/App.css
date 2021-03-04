@@ -1,3 +1,19 @@
+.cntButton{
+  position:relative;
+  bottom:5px;
+}
+.progressBar{
+  height: 5px;
+}
+.priceBar{
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.alertBanner{
+  background-color: rgba(0, 0, 0, 0.822);
+  font-weight: bold;
+  color: rgb(30, 218, 30);
+}
 .App {
   text-align: center;
 }
@@ -34,5 +50,11 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px){
+  .cntButton{
+    position:sticky;
   }
 }
