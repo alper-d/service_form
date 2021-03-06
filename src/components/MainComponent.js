@@ -1,15 +1,9 @@
 import React, {Component} from 'react'
 import Services from './Services'
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
-import {connect} from 'react-redux'
+import { Switch, Route, Redirect} from 'react-router-dom'
 import InfoTaker from './InfoTaker'
-import { updateAnswer, getQuestions } from '../redux/ActionCreators'
+import {withRouter } from 'react-router-dom'
 
-const mapDispatchToProps = dispatch => ({
-    updateAnswer:(response) => dispatch(updateAnswer(response)),
-    getQuestions:(service_id) => dispatch(getQuestions(service_id))
-
-})
 
 class MainComponent extends Component{
     constructor(props){
@@ -22,8 +16,6 @@ class MainComponent extends Component{
                 <Switch location={this.props.location}>
                     <Route exact path='/services' component={Services}/>
                     <Route path='/services/:service_name/:q_no' component={InfoTaker}/>
-                    {/*<Route path='/services/:service_name' component={()=><InfoTaker updateAnswer={this.props.updateAnswer}/>}/>
-                    */}
                     <Redirect to='/services'/>
                 </Switch>
             </div>
@@ -31,5 +23,4 @@ class MainComponent extends Component{
     }
 }
 
-//export default withRouter(connect(null,mapDispatchToProps)(MainComponent))
-export default MainComponent
+export default withRouter(MainComponent)

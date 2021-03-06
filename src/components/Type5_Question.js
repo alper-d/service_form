@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Button, CardDeck, Card, CardTitle, FormGroup, Input, Label, ListGroup, ListGroupItem, CardImg, Row } from 'reactstrap'
+import { Button, CardDeck, Card, CardTitle, FormGroup, Input, Label,  CardImg} from 'reactstrap'
 import {connect} from 'react-redux'
 import { updateAnswer } from '../redux/ActionCreators'
 
@@ -14,15 +14,13 @@ class Type5_Question extends Component{
         this.handleContinue = this.handleContinue.bind(this)
         this.handleRadioInput = this.handleRadioInput.bind(this)
         this.state = {
-            selectedAnswer:`${this.props.question.values[0].id}`
+            selectedAnswer:null
         }
     }
     handleRadioInput(e){
         this.setState({selectedAnswer:e.target.value})
     }
     handleContinue(){
-        console.log(this.state.selectedAnswer)
-        console.log(this.props.question.values)
         this.props.updateAnswer(this.props.question.id,{
             code:this.state.selectedAnswer,
             value:this.props.question.values.filter(
@@ -62,9 +60,7 @@ class Type5_Question extends Component{
                     {answers}
                 </CardDeck>
                 </FormGroup>
-                <div className="cntButton">
-                <Button className="" onClick={this.handleContinue}>Continue</Button>
-                </div>
+                <Button disabled={this.state.selectedAnswer === null} className="cntButton" onClick={this.handleContinue}>Continue</Button>
             </React.Fragment>
         )
     }

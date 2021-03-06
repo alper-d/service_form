@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import { Alert, Button, Progress, Spinner } from 'reactstrap';
-//import questions_262 from '../assets/262-questions.json';
-import questions_399 from '../assets/399-questions.json';
+//import questions_399 from '../assets/399-questions.json';
 import Type5_Question from './Type5_Question';
 import Type6_Question from './Type6_Question';
 import Type8_Question from './Type8_Question'
@@ -26,11 +25,8 @@ const mapDispatchToProps = dispatch => ({
 class InfoTaker extends Component{
     constructor(props){
         super(props)
-        //servis turu prop
         this.state = {
-            //service_name: this.props.match.params.service_name,
             step:this.props.match.params.q_no,
-            q_list: questions_399,
         }
         this.nextStep = this.nextStep.bind(this)
         this.previousStep = this.previousStep.bind(this)
@@ -41,8 +37,7 @@ class InfoTaker extends Component{
     nextStep(){
         let {step} = (this.state)
         step = step*1
-        const {q_list} =this.props
-        //console.log(step, q_list.length)
+        const {q_list} = this.props
         if (step+1 <= q_list.length){
             this.setState({step:step+1})
             this.props.history.push(`${step+1}`)
@@ -57,8 +52,9 @@ class InfoTaker extends Component{
         step = step*1
         const {q_list} =this.props
         console.log(step, q_list.length)
-        if (step > q_list.length && !this.props.response_loading){
-            console.log(this.props.responses)
+        if (this.props.match.params.q_no ==="success" && !this.props.response_loading){
+            for (const resp of this.props.responses)
+                console.log(`${resp.response.code} --> ${resp.response.value}`)
         }
     }
     previousStep(){
@@ -66,21 +62,20 @@ class InfoTaker extends Component{
         if (step+1 >1){
             this.setState({step:step-1})
             this.props.history.push(`${step-1}`)
-        }else{
-            //dismound back button
         }
     }
     returnToServices(){
-        this.props.resetStore()
         this.props.history.push(`../..`)
         
     }
 
     render(){
         var render_question = () =><React.Fragment></React.Fragment>
-        if(this.state.step===this.props.q_list.length+1){
+
+        if(this.props.match.params.q_no ==="success"){
             return(
-                <Alert color="primary">Success</Alert>
+                <Alert color="primary">
+                <span className="fa fa-check"></span> Success</Alert>
             )
         }
 
@@ -109,19 +104,27 @@ class InfoTaker extends Component{
         else{
             render_question = () => <Spinner></Spinner>
         }
+        if(this.props.service_details === null){
+            this.props.history.push(`/services`)
+            return(
+                <React.Fragment></React.Fragment>
+            )
+        }
+
         return(
             <div className='container'>
                 <div className="row justify-content-between my-1">
+                
                 <Button disabled={this.state.step<=1} className="col-2 ml-3" onClick={this.previousStep}>
                     <span className='fa fa-arrow-left'></span>
                 </Button>
-                <h1 className="col3">{this.props.match.params.service_name}</h1>
+                <h2 className="col3">{this.props.match.params.service_name}</h2>
                 <Button className="col-2 mr-3" onClick={this.returnToServices}>
                 <span className='fa fa-times'></span>
                 </Button>
                 </div>
-                <React.Fragment key={`${this.props.q_list.length}-${this.state.step}`}>
-                <Progress className="progressBar" value={Math.trunc(((this.state.step-1)*100)/this.props.q_list.length)} color="success"></Progress>
+                
+                <Progress className="progressBar my-1" value={Math.trunc(((this.state.step-1)*100)/this.props.q_list.length)} color="success"></Progress>
                 <Alert className="clearfix priceBar">
                 <span className="float-left">Ortalama Fiyat Aralığı</span>
                 <span className="float-right">
@@ -135,6 +138,7 @@ class InfoTaker extends Component{
                         {this.props.service_details.discountRateText}
                     </Alert>
                 }
+                <React.Fragment key={`${this.props.q_list.length}-${this.state.step}`}>
                 {render_question()}
                 </React.Fragment>
             </div>

@@ -1,24 +1,18 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
-import {ListGroup, ListGroupItem, Badge} from 'reactstrap'
+import {ListGroup, ListGroupItem} from 'reactstrap'
 import services from '../assets/services.json'
 import {connect} from 'react-redux'
-import {getQuestions, setServiceDetails } from '../redux/ActionCreators'
+import {getQuestions, setServiceDetails,resetStore } from '../redux/ActionCreators'
+
 
 const mapDispatchToProps = (dispatch) =>{
     return{
         getQuestions:(service_id) => dispatch(getQuestions(service_id)),
-        setServiceDetails:(details) => dispatch(setServiceDetails(details))
+        setServiceDetails:(details) => dispatch(setServiceDetails(details)),
+        resetStore:() => dispatch(resetStore())
     }
 }
-
-//const mapStateToProps = (state) => {
-//    return{
-//        searchResults: state.musics.musics,
-//        searchLoading: state.musics.searchLoading
-//    }
-//}
-
 
 class Services extends Component{
     constructor(props){
@@ -26,12 +20,9 @@ class Services extends Component{
     }
 
     componentDidMount(){
+        this.props.resetStore()
     }
 
-    componentDidUpdate(){
-
-    }
-//
     render(){
         const renderServices = services.map((service) => {
             return(

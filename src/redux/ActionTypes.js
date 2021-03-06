@@ -1,6 +1,3 @@
-export const UPDATE_Q453 = 'UPDATE_Q453'
-export const UPDATE_Q1279 = 'UPDATE_1279'
-
 export const ADD_RESPONSE = "ADD_RESPONSE"
 export const RESET_RESPONSES = "RESET_RESPONSES"
 export const FETCH_QUESTIONS = "FETCH_QUESTIONS"

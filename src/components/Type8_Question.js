@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import { Button, FormFeedback, FormGroup, Input, Label, ListGroup, ListGroupItem } from 'reactstrap'
+import { Button, FormFeedback, FormGroup, Input} from 'reactstrap'
 import { updateAnswer } from '../redux/ActionCreators'
 import {connect} from 'react-redux'
 
@@ -22,7 +22,7 @@ class Type8_Question extends Component{
     }
     handleContinue(){
         if(this.state.text.length > 0){
-            this.props.updateAnswer(this.props.question.id,{code:0,value:this.state.text})
+            this.props.updateAnswer(this.props.question.id,{code:"text",value:this.state.text})
             this.props.nextStep()
         }else{
             this.setState({textValid: this.textFieldEnum.invalid})
@@ -39,19 +39,18 @@ class Type8_Question extends Component{
             <div className='container'>
                 <h1>{this.props.question.label}</h1>
                 <FormGroup>
-                <Label for=''>Work Details</Label>
                     <Input 
                         valid={+this.state.textValid===this.textFieldEnum.valid} 
                         invalid={+this.state.textValid===this.textFieldEnum.invalid} 
                         type='textarea' 
                         id="work_details"
-                        placeholder={this.props.placeholder}
-                            onChange={this.handleTextInput}
+                        placeholder={this.props.question.placeHolder}
+                        onChange={this.handleTextInput}
                         />
                     <FormFeedback valid> That is ok</FormFeedback>
                     <FormFeedback invalid={1}>Bu alan zorunlu!</FormFeedback>
                 </FormGroup>
-                <Button className="ctnButton" onClick={this.handleContinue}>Continue</Button>
+                <Button disabled={this.state.textValid===this.textFieldEnum.invalid} className="ctnButton" onClick={this.handleContinue}>Continue</Button>
             </div>
         )
     }

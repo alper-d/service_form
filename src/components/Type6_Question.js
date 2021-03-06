@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import { Button, FormGroup, Input, Label, ListGroup, ListGroupItem } from 'reactstrap'
+import { Button, FormGroup, Input, Label, ListGroup, ListGroupItem} from 'reactstrap'
 import {connect} from 'react-redux'
 import { updateAnswer } from '../redux/ActionCreators'
 
@@ -15,7 +15,8 @@ class Type6_Question extends Component{
         this.handleRadioInput = this.handleRadioInput.bind(this)
         
         this.state = {
-            selectedAnswer:`${this.props.question.values[0].id}`
+            selectedAnswer:`${this.props.question.values[0].id}`,
+            selectedAnswer:null
         }
 
     }
@@ -24,7 +25,6 @@ class Type6_Question extends Component{
     }
     
     handleContinue(){
-        console.log(this.state.selectedAnswer)
         this.props.updateAnswer(this.props.question.id,{
             code:this.state.selectedAnswer,
             value:this.props.question.values.filter(
@@ -35,10 +35,9 @@ class Type6_Question extends Component{
 
     render(){
         const answers = this.props.question.values.map((answer) => {
-            console.log(answer.value)
             return(
                 <ListGroupItem className='row' key={answer.id}>
-                <FormGroup check >
+                <FormGroup check>
                     <Label check>
                         <Input type='radio' 
                                value={`${answer.id}`} 
@@ -59,7 +58,7 @@ class Type6_Question extends Component{
                 {answers}
                 </FormGroup>
                 </ListGroup>
-                <Button className="ctnButton" onClick={this.handleContinue}>Continue</Button>
+                <Button disabled={this.state.selectedAnswer === null} className="ctnButton" onClick={this.handleContinue}>Continue</Button>
             </div>
         )
     }
